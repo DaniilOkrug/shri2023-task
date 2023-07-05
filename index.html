@@ -67,8 +67,7 @@
             </button>
             <ul
               className={
-                "header__links" +
-                (expanded ? " header__links_opened" : "")
+                "header__links" + (expanded ? " header__links_opened" : "")
               }
             >
               <li className="header__item">
@@ -101,14 +100,13 @@
         const { onSize } = props;
 
         React.useEffect(() => {
-          if (!ref.current) return;
-
-          const width = ref.current.offsetWidth;
-          const height = ref.current.offsetHeight;
-          if (onSize) {
-            onSize({ width, height });
+          if (onSize && ref.current) {
+            onSize({
+              width: ref.current.offsetWidth,
+              height: ref.current.offsetHeight,
+            });
           }
-        });
+        }, [ref.current]);
 
         return (
           <li ref={ref} className={"event" + (props.slim ? " event_slim" : "")}>
