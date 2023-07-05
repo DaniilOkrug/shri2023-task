@@ -265,13 +265,13 @@
         React.useEffect(() => {
           if (!ref.current) return;
 
-          const sumWidth = TABS[activeTab].length * 200;
+          const sumWidth = TABS[activeTab].items.length * 200;
 
           const newHasRightScroll = sumWidth > ref.current.offsetWidth;
           if (newHasRightScroll !== hasRightScroll) {
             setHasRightScroll(newHasRightScroll);
           }
-        }, [ref.current, activeTabRR]);
+        }, [ref.current, activeTab]);
 
         const onArrowCLick = React.useCallback(() => {
           const scroller = ref.current.querySelector(
