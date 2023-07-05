@@ -106,7 +106,7 @@
               height: ref.current.offsetHeight,
             });
           }
-        }, [ref.current]);
+        }, [ref.current?.offsetWidth, ref.current?.offsetHeight, onSize]);
 
         return (
           <li ref={ref} className={"event" + (props.slim ? " event_slim" : "")}>
