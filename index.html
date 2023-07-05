@@ -100,6 +100,8 @@
         const { onSize } = props;
 
         React.useEffect(() => {
+          if (!ref.current) return;
+
           const width = ref.current.offsetWidth;
           const height = ref.current.offsetHeight;
           if (onSize) {
@@ -260,13 +262,12 @@
 
       function Main() {
         const ref = React.useRef();
-        const initedRef = React.useRef(false);
+
         const [activeTab, setActiveTab] = React.useState("");
         const [hasRightScroll, setHasRightScroll] = React.useState(false);
 
         React.useEffect(() => {
-          if (!activeTab && !initedRef.current) {
-            initedRef.current = true;
+          if (!activeTab) {
             setActiveTab(
               new URLSearchParams(location.search).get("tab") || "all"
             );
@@ -277,9 +278,9 @@
           setActiveTab(event.target.value);
         };
 
-        let sizes = [];
+        const sizes = [];
         const onSize = (size) => {
-          sizes = [...sizes, size];
+          sizes.push(size);
         };
 
         React.useEffect(() => {
