@@ -100,13 +100,12 @@
         const { onSize } = props;
 
         React.useEffect(() => {
-          if (onSize && ref.current) {
+          if (onSize && ref.current?.offsetWidth) {
             onSize({
               width: ref.current.offsetWidth,
-              height: ref.current.offsetHeight,
             });
           }
-        }, [ref.current?.offsetWidth, ref.current?.offsetHeight, onSize]);
+        }, [ref.current?.offsetWidth, onSize]);
 
         return (
           <li ref={ref} className={"event" + (props.slim ? " event_slim" : "")}>
@@ -264,16 +263,10 @@
       function Main() {
         const ref = React.useRef();
 
-        const [activeTab, setActiveTab] = React.useState("");
+        const [activeTab, setActiveTab] = React.useState(
+          new URLSearchParams(location.search).get("tab") || "all"
+        );
         const [hasRightScroll, setHasRightScroll] = React.useState(false);
-
-        React.useEffect(() => {
-          if (!activeTab) {
-            setActiveTab(
-              new URLSearchParams(location.search).get("tab") || "all"
-            );
-          }
-        });
 
         const onSelectInput = (event) => {
           setActiveTab(event.target.value);
@@ -285,14 +278,15 @@
         };
 
         React.useEffect(() => {
+          if (!ref.current) return;
+
           const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
-          const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
 
           const newHasRightScroll = sumWidth > ref.current.offsetWidth;
           if (newHasRightScroll !== hasRightScroll) {
             setHasRightScroll(newHasRightScroll);
           }
-        }, [sizes]);
+        }, [sizes, ref.current]);
 
         const onArrowCLick = () => {
           const scroller = ref.current.querySelector(
@@ -455,7 +449,7 @@
                   >
                     <ul className="section__panel-list">
                       {TABS[key].items.map((item, index) => (
-                        <Event key={index} {...item} onSize={onSize} />
+                        <Event key={`${key}_index`} {...item} onSize={onSize} />
                       ))}
                     </ul>
                   </div>
