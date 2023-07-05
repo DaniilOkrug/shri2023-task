@@ -97,6 +97,16 @@
       function Event(props) {
         const ref = React.useRef();
 
+        const { onSize } = props;
+
+        React.useEffect(() => {
+          if (onSize && ref.current?.offsetWidth) {
+            onSize({
+              width: ref.current.offsetWidth,
+            });
+          }
+        }, [ref.current?.offsetWidth, onSize]);
+
         return (
           <li ref={ref} className={"event" + (props.slim ? " event_slim" : "")}>
             <button className="event__button">
@@ -262,18 +272,23 @@
           setActiveTab(event.target.value);
         };
 
+        const sizes = [];
+        const onSize = (size) => {
+          sizes.push(size);
+        };
+
         React.useEffect(() => {
           if (!ref.current) return;
 
-          const sumWidth = TABS[activeTab].length * 200;
+          const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
 
           const newHasRightScroll = sumWidth > ref.current.offsetWidth;
           if (newHasRightScroll !== hasRightScroll) {
             setHasRightScroll(newHasRightScroll);
           }
-        }, [ref.current, activeTabRR]);
+        }, [sizes, ref.current]);
 
-        const onArrowCLick = React.useCallback(() => {
+        const onArrowCLick = () => {
           const scroller = ref.current.querySelector(
             ".section__panel:not(.section__panel_hidden)"
           );
@@ -283,7 +298,7 @@
               behavior: "smooth",
             });
           }
-        }, []);
+        };
 
         return (
           <main className="main">
@@ -420,13 +435,25 @@
               </div>
 
               <div className="section__panel-wrapper" ref={ref}>
-                <div role="tabpanel" className={"section__panel"}>
-                  <ul className="section__panel-list">
-                    {TABS[activeTab].items.map((item, index) => (
-                      <Event key={`${activeTab}_${index}`} {...item} />
-                    ))}
-                  </ul>
-                </div>
+                {TABS_KEYS.map((key) => (
+                  <div
+                    key={`section__panel-wrapper_${key}`}
+                    role="tabpanel"
+                    className={
+                      "section__panel" +
+                      (key === activeTab ? "" : " section__panel_hidden")
+                    }
+                    aria-hidden={key === activeTab ? "false" : "true"}
+                    id={`panel_${key}`}
+                    aria-labelledby={`tab_${key}`}
+                  >
+                    <ul className="section__panel-list">
+                      {TABS[key].items.map((item, index) => (
+                        <Event key={`${key}_index`} {...item} onSize={onSize} />
+                      ))}
+                    </ul>
+                  </div>
+                ))}
                 {hasRightScroll && (
                   <div className="section__arrow" onClick={onArrowCLick}></div>
                 )}
