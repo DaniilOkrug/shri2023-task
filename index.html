@@ -11,7 +11,7 @@
       type="font/woff2"
       crossorigin="anonymous"
     />
-    <script src="vendors/react-with-dom.js"></script>
+    <script defer src="vendors/react-with-dom.js"></script>
     <link rel="stylesheet" type="text/css" href="reset.css" />
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
@@ -38,7 +38,7 @@
     </footer>
 
     <script defer src="vendors/babel.min.js"></script>
-    <script type="text/babel">
+    <script defer type="text/babel">
       function Header() {
         let [expanded, setExpanded] = React.useState(false);
         let [toggled, setToggled] = React.useState(false);
