@@ -36,7 +36,7 @@
 
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script defer type="text/babel">
-    function Header() {
+    const Header = React.memo(() => {
       let [expanded, setExpanded] = React.useState(false);
       let [toggled, setToggled] = React.useState(false);
 
@@ -89,7 +89,7 @@
           </ul>
         </header>
       );
-    }
+    });
 
     function Event(props) {
       const ref = React.useRef();
