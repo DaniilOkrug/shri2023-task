@@ -100,12 +100,6 @@ body {
     box-shadow: 0 2px 6px 0 rgba(197, 186, 186, 0.5);
   }
 
-  .header__links-toggled {
-    display: flex;
-    animation: hideMenu 0.3s ease-in-out 1;
-    animation-fill-mode: both;
-  }
-
   .header__links_opened {
     display: flex;
     visibility: visible;
