@@ -411,7 +411,7 @@
                   onInput={onSelectInput}
                 >
                   {TABS_KEYS.map((key) => (
-                    <option key={key} value={key}>
+                    <option key={`section__select_${key}`} value={key}>
                       {TABS[key].title}
                     </option>
                   ))}
@@ -420,7 +420,7 @@
                 <ul role="tablist" className="section__tabs">
                   {TABS_KEYS.map((key) => (
                     <li
-                      key={key}
+                      key={`tab_${key}`}
                       role="tab"
                       aria-selected={key === activeTab ? "true" : "false"}
                       tabIndex={key === activeTab ? "0" : undefined}
@@ -441,7 +441,7 @@
               <div className="section__panel-wrapper" ref={ref}>
                 {TABS_KEYS.map((key) => (
                   <div
-                    key={key}
+                    key={`section__panel-wrapper_${key}`}
                     role="tabpanel"
                     className={
                       "section__panel" +
