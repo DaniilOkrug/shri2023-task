@@ -425,21 +425,19 @@
               </div>
 
               <div className="section__panel-wrapper" ref={ref}>
-                  <div
-                    role="tabpanel"
-                    className={
-                      "section__panel"
+                <div
+                  role="tabpanel"
+                  className={
+                    "section__panel"
                     //   (key === activeTab ? "" : " section__panel_hidden")
-                    }
-                    id={`panel_${activeTab}`}
-                    aria-labelledby={`tab_${activeTab}`}
-                  >
-                    <ul className="section__panel-list">
-                      {TABS[key].items.map((item, index) => (
-                        <Event key={`${activeTab}_${index}`} {...item} />
-                      ))}
-                    </ul>
-                  </div>
+                  }
+                >
+                  <ul className="section__panel-list">
+                    {TABS[activeTab].items.map((item, index) => (
+                      <Event key={`${activeTab}_${index}`} {...item} />
+                    ))}
+                  </ul>
+                </div>
                 {hasRightScroll && (
                   <div className="section__arrow" onClick={onArrowCLick}></div>
                 )}
