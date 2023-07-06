@@ -439,7 +439,7 @@
                   >
                     <ul className="section__panel-list">
                       {TABS[key].items.map((item, index) => (
-                        <Event key={`${key}_index`} {...item} />
+                        <Event key={`${key}_${index}`} {...item} />
                       ))}
                     </ul>
                   </div>
