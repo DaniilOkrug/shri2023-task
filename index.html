@@ -97,16 +97,6 @@
       const Event = React.memo((props) => {
         const ref = React.useRef();
 
-        const { onSize } = props;
-
-        React.useEffect(() => {
-          if (onSize && ref.current?.offsetWidth) {
-            onSize({
-              width: ref.current.offsetWidth,
-            });
-          }
-        }, [ref.current?.offsetWidth, onSize]);
-
         return (
           <li ref={ref} className={"event" + (props.slim ? " event_slim" : "")}>
             <button className="event__button">
@@ -272,21 +262,16 @@
           setActiveTab(event.target.value);
         };
 
-        const sizes = [];
-        const onSize = (size) => {
-          sizes.push(size);
-        };
-
         React.useEffect(() => {
           if (!ref.current) return;
 
-          const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
+          const sumWidth = TABS[activeTab].items.length * 200;
 
           const newHasRightScroll = sumWidth > ref.current.offsetWidth;
           if (newHasRightScroll !== hasRightScroll) {
             setHasRightScroll(newHasRightScroll);
           }
-        }, [sizes, ref.current]);
+        }, [activeTab, ref.current]);
 
         const onArrowCLick = () => {
           const scroller = ref.current.querySelector(
@@ -449,7 +434,7 @@
                   >
                     <ul className="section__panel-list">
                       {TABS[key].items.map((item, index) => (
-                        <Event key={`${key}_index`} {...item} onSize={onSize} />
+                        <Event key={`${key}_index`} {...item} />
                       ))}
                     </ul>
                   </div>
